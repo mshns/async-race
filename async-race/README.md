@@ -1,46 +1,25 @@
-# Getting Started with Create React App
+# Async Race
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Your customer has an idea to spend his money. He has hired some engineers who installed some radio-controlled equipment :radio: to real cars :car:. To the all his collection of cars to be precise. He is eager to create kind of drag-racing competition in order to discover which car fastest.
 
-## Available Scripts
+Each radio-contorller has an HTTP-compatible interface. It's let you to start or stop engine of the car and of course enable "driving" mode.
 
-In the project directory, you can run:
+Your task is to create [SPA](https://en.wikipedia.org/wiki/Single-page_application) to manage the collection of the cars, operate its engines, and show races statistics.
 
-### `npm start`
+Previously development of this application has been started by some belarusian developer Dzmitry (and was almost finished). But his laptop :computer: was stolen by bad guys. And we don't have any sources of UI 😞. But fortunately he has recorded some [demo](https://youtu.be/sTXtlBLh-Ts) before. And also he has stored the server-mock in his [repo](https://github.com/mikhama/async-race-api).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+We have found in the latest news that a new company called "The Fast and the Furious" announced about releasing a new product that will really blow people's minds. There is no a lot of info about this product. All we know it's about "easier cars' management that you can imagine". It's exactly our thiefs :suspect:. They're going to release their product in two weeks. But we can't allow them to do that. We must be first.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+What are you waiting for? Let's coding!
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Deploy: https://erkhandv-mshns-online-store.netlify.app/
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Technologies used:
++ Сommunication with a server (fetch, REST API)
++ Async coding / Promises
++ JS Animations
++ DOM Api
