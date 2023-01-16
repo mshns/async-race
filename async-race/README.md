@@ -14,7 +14,7 @@ What are you waiting for? Let's coding!
 
 ---
 
-### Deploy: https://erkhandv-mshns-online-store.netlify.app/
+### Deploy: 
 
 ---
 
