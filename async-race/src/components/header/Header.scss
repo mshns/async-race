@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px dashed #bbb;
+}
+
+.header_logo {
+  margin: 40px;
+}
+
+.header_navigation {
+  display: flex;
+  margin-right: 40px;
+  list-style: none;
+}
+
+.navigation-item {
+  width: 100px;
+  padding: 5px 10px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background-color: rgb(187, 187, 187, .5);
+  cursor: pointer;
+  transition: ease-in-out .4s;
+  &:hover {
+    color: #000;
+    background-color: rgb(187, 187, 187, 1);
+    transform: scale(1.01);
+  }
+}
