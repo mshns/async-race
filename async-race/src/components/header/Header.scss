@@ -2,24 +2,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 40px;
   border-bottom: 4px dashed #bbb;
 }
 
 .header_logo {
-  margin: 40px;
+  position: relative;
 }
 
 .header_navigation {
   display: flex;
-  margin-right: 40px;
   list-style: none;
 }
 
 .navigation-item {
-  width: 100px;
+  min-width: 100px;
   padding: 5px 10px;
-  margin: 10px;
+  margin-left: 10px;
   text-align: center;
+  text-transform: uppercase;
   border-radius: 4px;
   background-color: rgb(187, 187, 187, .5);
   cursor: pointer;

@@ -1,0 +1,58 @@
+.garage {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.garage_settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings_control {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings_remote {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.remote_input {
+  font-family: "Russo One", sans-serif;
+  font-weight: 100;
+  font-size: 16px;
+  padding: 5px;
+  outline: none;
+  border: none;
+  background-color: rgb(255, 255, 255, .75);
+  border-radius: 4px;
+}
+
+.remote_color {
+  width: 40px;
+  height: 40px;
+  margin: 0 20px;
+
+  border: 1px solid #fff;
+  border-radius: 4px;
+}
+
+.remote_button {
+  min-width: 80px;
+  padding: 4px 10px;
+  font-family: "Russo One", sans-serif;
+  font-weight: 100;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 4px;
+  background-color: rgb(187, 187, 187, .5);
+  cursor: pointer;
+  transition: ease-in-out .2s;
+  &:hover {
+    color: #000;
+    background-color: rgb(187, 187, 187, 1);
+  }
+}
