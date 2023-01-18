@@ -1,5 +1,72 @@
 .track {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 40px;
   border-bottom: 2px dashed #bbb;
+}
+
+.car-settings {
+  display: flex;
+  align-items: center;
+  height: 36px;
+}
+
+.track_button {
+  min-width: 60px;
+  height: 24px;
+  margin-right: 6px;
+  font-family: "Russo One", sans-serif;
+  font-size: 12px;
+  font-weight: 100;
+  color: #000;
+  text-transform: uppercase;
+  border-radius: 4px;
+  background-color: #bbb;
+  border: none;
+  cursor: pointer;
+  transition: ease-in-out .2s;
+  &:hover {
+    color: #ff8800;
+    background-color: #fff;
+  }
+}
+
+.track_line {
+  display: flex;
+}
+
+.car-remote {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60px;
+  height: 54px;
+  margin-bottom: 10px;
+}
+
+.track_race {
+  position: relative;
+  width: calc(100% - 190px);
+  margin-left: 10px;
+  &::before {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    content: "\1F3C1";
+    font-size: 52px;
+    transform: rotate(-15deg);
+  }
+}
+
+.track_car {
+  position: relative;
+  left: 0%;
+  top: 25px;
+  width: 120px;
+  height: auto;
+  margin-top: auto;
+}
+
+.track_car path {
+  fill: #ccc;
 }

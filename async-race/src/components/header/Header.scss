@@ -2,12 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px;
+  padding: 20px 40px;
   border-bottom: 4px dashed #bbb;
 }
 
 .header_logo {
   position: relative;
+  color: #ff8800;
 }
 
 .header_navigation {
@@ -22,12 +23,12 @@
   text-align: center;
   text-transform: uppercase;
   border-radius: 4px;
-  background-color: rgb(187, 187, 187, .5);
+  color: #000;
+  background-color: #bbb;
   cursor: pointer;
-  transition: ease-in-out .4s;
+  transition: ease-in-out .2s;
   &:hover {
-    color: #000;
-    background-color: rgb(187, 187, 187, 1);
-    transform: scale(1.01);
+    color: #ff8800;
+    background-color: #fff;
   }
 }

@@ -24,7 +24,7 @@ function Garage() {
           <button className="remote_button">Generate Cars</button>
         </div>
       </section>
-      <h2>Garage / 100</h2>
+      <h2>Garage / 100 /</h2>
       <section className="garage_autodrom">
         <Track />
       </section>
