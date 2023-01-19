@@ -1,10 +1,11 @@
-import Track from "../track/Track"
+import Track from "../track/Track";
 
 import "./Garage.scss";
+import "../../App.scss";
 
-function Garage() {
+function Garage({ garageView }: { garageView: boolean }) {
   return (
-    <div className="garage">
+    <div className={`garage ${garageView ? "" : "hidden"}`}>
       <section className="garage_settings">
         <div className="settings_control">
           <div className="settings_remote">

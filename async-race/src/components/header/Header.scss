@@ -27,7 +27,9 @@
   background-color: #bbb;
   cursor: pointer;
   transition: ease-in-out .2s;
-  &:hover {
+  &:hover,
+  &.active
+   {
     color: #ff8800;
     background-color: #fff;
   }

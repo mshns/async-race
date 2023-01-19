@@ -1,0 +1,8 @@
+.winners {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  &.hidden {
+    display: none;
+  }
+}

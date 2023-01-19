@@ -1,13 +1,13 @@
-import Garage from '../garage/Garage';
-import Winners from '../winners/Winners';
+import Garage from "../garage/Garage";
+import Winners from "../winners/Winners";
 
 import "./Main.scss";
 
-function Main() {
+function Main({ garageView }: { garageView: boolean }) {
   return (
     <main className="main">
-      <Garage />
-      <Winners />
+      <Garage garageView={garageView} />
+      <Winners garageView={garageView} />
     </main>
   );
 }
