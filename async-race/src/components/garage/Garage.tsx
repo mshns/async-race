@@ -1,21 +1,27 @@
+import React, { useState } from "react";
+import { PopoverPicker } from "../popoverPicker/PopoverPicker";
+
 import Track from "../track/Track";
 
 import "./Garage.scss";
 import "../../App.scss";
 
 function Garage({ garageView }: { garageView: boolean }) {
+  const [colorCreate, setColorCreate] = useState("#bbbbbb");
+  const [colorUpdate, setColorUpdate] = useState("#bbbbbb");
+
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>
       <section className="garage_settings">
         <div className="settings_control">
           <div className="settings_remote">
             <input className="remote_input" type="text" />
-            <div className="remote_color"></div>
+            <PopoverPicker color={colorCreate} onChange={setColorCreate} />
             <button className="remote_button">Create</button>
           </div>
           <div className="settings_remote">
             <input className="remote_input" type="text" />
-            <div className="remote_color"></div>
+            <PopoverPicker color={colorUpdate} onChange={setColorUpdate} />
             <button className="remote_button">Update</button>
           </div>
         </div>

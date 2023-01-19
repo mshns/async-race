@@ -23,7 +23,6 @@ function Track() {
             width="1640px"
             height="520px"
             viewBox="0 0 1640 520"
-            enable-background="new 0 0 1640 520"
           >
             <g transform="translate(0.000000,520.000000) scale(0.100000,-0.100000)">
               <path
