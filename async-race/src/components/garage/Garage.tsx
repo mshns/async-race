@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PopoverPicker } from "../popoverPicker/PopoverPicker";
 
 import Track from "../track/Track";
+import CarNameList from "../../data/CarNameList";
 
 import "./Garage.scss";
 import "../../App.scss";
@@ -31,6 +32,28 @@ function Garage({ garageView }: { garageView: boolean }) {
       color: colorUpdate,
     };
     setCarList([...carList, item]);
+  }
+
+  function getRandomColor() {
+    const randomRGB = () => Math.floor(Math.random() * 256);
+    const randomColor = `rgb(${randomRGB()},${randomRGB()},${randomRGB()})`;
+    return randomColor;
+  }
+
+  function generateCars() {
+    const hundredCars: ICarItem[] = [];
+
+    for (let i = 0; i < 100; i++) {
+      const randomBrand = Math.floor(Math.random() * CarNameList.length);
+      const randomModel = Math.floor(
+        Math.random() * CarNameList[randomBrand].model.length
+      );
+      const brand = CarNameList[randomBrand].brand;
+      const model = CarNameList[randomBrand].model[randomModel];
+      hundredCars.push({ name: `${brand} ${model}`, color: getRandomColor() });
+    }
+
+    setCarList([...hundredCars, ...carList]);
   }
 
   console.log(carList);
@@ -73,7 +96,13 @@ function Garage({ garageView }: { garageView: boolean }) {
         <div className="settings_buttons">
           <button className="remote_button">Race</button>
           <button className="remote_button">Reset</button>
-          <button className="remote_button">Generate Cars</button>
+          <button
+            className="remote_button"
+            type="button"
+            onClick={generateCars}
+          >
+            Generate Cars
+          </button>
         </div>
       </section>
       <h2>Garage / {carList.length}</h2>
