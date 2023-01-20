@@ -27,4 +27,3 @@ const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
 };
 
 export default useOnClickOutside;
-
