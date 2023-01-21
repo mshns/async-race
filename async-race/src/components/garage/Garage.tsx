@@ -14,6 +14,8 @@ function Garage({ garageView }: { garageView: boolean }) {
   const [carList, setCarList] = useState<ICarItem[]>([]);
   const [carCount, setCarCount] = useState<string | null>("");
 
+  const [pageNumber, setPageNumber] = useState<number>(1);
+
   const [nameCreate, setNameCreate] = useState<string>("");
   const [colorCreate, setColorCreate] = useState<string>("#ff8800");
 
@@ -24,11 +26,11 @@ function Garage({ garageView }: { garageView: boolean }) {
   useEffect(() => {
     getCarList();
     getCarCount();
-  }, []);
+  }, [pageNumber]);
 
   async function getCarList() {
     const response = await fetch(
-      "http://127.0.0.1:3000/garage?_page=1&_limit=7"
+      `http://127.0.0.1:3000/garage?_page=${pageNumber}&_limit=7`
     );
     const carList = await response.json();
     setCarList(carList);
@@ -58,7 +60,7 @@ function Garage({ garageView }: { garageView: boolean }) {
     getCarCount();
   }
 
-  async function updateCar(nameCreate: string, colorCreate: string) {
+  async function updateCar() {
     const item: ICarCreat = {
       name: nameUpdate,
       color: colorUpdate,
@@ -131,7 +133,7 @@ function Garage({ garageView }: { garageView: boolean }) {
               className="remote_button"
               type="button"
               onClick={() => {
-                updateCar(nameUpdate, colorUpdate);
+                updateCar();
                 setIdCarSelect(0);
                 setNameUpdate("");
                 setColorUpdate("#ff8800");
@@ -153,7 +155,36 @@ function Garage({ garageView }: { garageView: boolean }) {
           </button>
         </div>
       </section>
-      <h2>Garage / {carCount}</h2>
+      <div className="garage_pagination">
+        <h2 className="garage_title">
+          Garage
+          <span className="title_icon">emoji_transportation</span>
+          {carCount}
+        </h2>
+        <div className="garage_page">
+          <button
+            className="page_button__prev"
+            type="button"
+            onClick={() => {
+              setPageNumber(pageNumber - 1);
+              getCarList();
+            }}
+          >
+            Prev
+          </button>
+          <span className="page_number">Page {pageNumber}</span>
+          <button
+            className="page_button__next"
+            type="button"
+            onClick={() => {
+              setPageNumber(pageNumber + 1);
+              getCarList();
+            }}
+          >
+            Next
+          </button>
+        </div>
+      </div>
       <section className="garage_autodrom">
         {carList.map((item: ICarItem) => (
           <Track
@@ -167,7 +198,6 @@ function Garage({ garageView }: { garageView: boolean }) {
           />
         ))}
       </section>
-      <div className="garage_pagination"></div>
     </div>
   );
 }

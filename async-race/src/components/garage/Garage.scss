@@ -27,9 +27,9 @@
   justify-content: space-between;
   align-items: center;
   width: 360px;
-  transition: ease-in-out .2s;
+  transition: ease-in-out 0.2s;
   &.disabled {
-    opacity: .25;
+    opacity: 0.25;
     pointer-events: none;
   }
 }
@@ -93,9 +93,71 @@
   background-color: #bbb;
   border: none;
   cursor: pointer;
-  transition: ease-in-out .2s;
+  transition: ease-in-out 0.2s;
   &:hover {
     color: #ff8800;
     background-color: #fff;
+  }
+}
+
+.garage_pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.garage_title {
+  display: flex;
+  align-items: center;
+}
+
+.title_icon {
+  font-family: 'Material Symbols Rounded';
+  font-size: 32px;
+  color: #ff8800;
+  margin: 0 10px;
+}
+
+.garage_page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 220px;
+  height: 40px;
+  margin-right: 14px;
+}
+
+.page_button__prev,
+.page_button__next {
+  position: relative;
+  font-family: "Russo One", sans-serif;
+  text-transform: uppercase;
+  background: none;
+  color: #ff8800;
+  cursor: pointer;
+  &::before,
+  &::after {
+    position: absolute;
+    left: -15px;
+    top: -6px;
+    content: "arrow_back_ios";
+    font-family: "Material Symbols Rounded";
+    font-size: 24px;
+    color: #ff8800;
+    opacity: .5;
+  }
+  &::after {
+    left: 52px;
+  }
+}
+
+.page_button__next {
+  &::before,
+  &::after {
+    left: -22px;
+    content: "arrow_forward_ios";
+  }
+  &::after {
+    left: 45px;
   }
 }
