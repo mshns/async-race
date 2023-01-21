@@ -1,6 +1,12 @@
 export interface ICarItem {
   name: string;
   color: string;
+  id: number;
+}
+
+export interface ICarCreat {
+  name: string;
+  color: string;
 }
 
 export interface ICarName {

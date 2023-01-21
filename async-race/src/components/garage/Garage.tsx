@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PopoverPicker } from "../popoverPicker/PopoverPicker";
 
 import Track from "../track/Track";
@@ -7,10 +7,12 @@ import CarNameList from "../../data/CarNameList";
 import "./Garage.scss";
 import "../../App.scss";
 
-import { ICarItem } from "../../types/types";
+import { ICarCreat, ICarItem } from "../../types/types";
+import { getRandomColor } from "../../lib/helpers/getRandomColor";
 
 function Garage({ garageView }: { garageView: boolean }) {
   const [carList, setCarList] = useState<ICarItem[]>([]);
+  const [carCount, setCarCount] = useState<string | null>("");
 
   const [colorCreate, setColorCreate] = useState("#ff8800");
   const [nameCreate, setNameCreate] = useState("");
@@ -18,30 +20,54 @@ function Garage({ garageView }: { garageView: boolean }) {
   const [colorUpdate, setColorUpdate] = useState("#ff8800");
   const [nameUpdate, setNameUpdate] = useState("");
 
-  function createCar(nameCreate: string, colorCreate: string) {
-    const item: ICarItem = {
+  useEffect(() => {
+    getCarList();
+    getCarCount();
+  }, []);
+
+  async function getCarList() {
+    const response = await fetch(
+      "http://127.0.0.1:3000/garage?_page=1&_limit=7"
+    );
+    const carList = await response.json();
+    setCarList(carList);
+  }
+
+  async function getCarCount() {
+    const response = await fetch("http://127.0.0.1:3000/garage?_page=1");
+    const carCount = response.headers.get("X-Total-Count");
+    setCarCount(carCount);
+  }
+
+  async function createCar(nameCreate: string, colorCreate: string) {
+    const item: ICarCreat = {
       name: nameCreate,
       color: colorCreate,
     };
-    setCarList([item, ...carList]);
+
+    await fetch("http://127.0.0.1:3000/garage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+
+    getCarList();
+    getCarCount();
   }
 
-  function updateCar(nameUpdate: string, colorUpdate: string) {
-    const item: ICarItem = {
-      name: nameUpdate,
-      color: colorUpdate,
-    };
-    setCarList([...carList, item]);
-  }
+  async function removeCar(id: number) {
+    await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+      method: "DELETE",
+    });
 
-  function getRandomColor() {
-    const randomRGB = () => Math.floor(Math.random() * 256);
-    const randomColor = `rgb(${randomRGB()},${randomRGB()},${randomRGB()})`;
-    return randomColor;
+    getCarList();
+    getCarCount();
   }
 
   function generateCars() {
-    const hundredCars: ICarItem[] = [];
+    const hundredCars: ICarCreat[] = [];
 
     for (let i = 0; i < 100; i++) {
       const randomBrand = Math.floor(Math.random() * CarNameList.length);
@@ -53,11 +79,9 @@ function Garage({ garageView }: { garageView: boolean }) {
       hundredCars.push({ name: `${brand} ${model}`, color: getRandomColor() });
     }
 
-    setCarList([...hundredCars, ...carList]);
+    hundredCars.map((item) => createCar(item.name, item.color));
+    getCarList();
   }
-
-  console.log(carList);
-
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>
       <section className="garage_settings">
@@ -70,8 +94,8 @@ function Garage({ garageView }: { garageView: boolean }) {
             />
             <PopoverPicker color={colorCreate} onChange={setColorCreate} />
             <button
-              type="button"
               className="remote_button"
+              type="button"
               onClick={() => createCar(nameCreate, colorCreate)}
             >
               Create
@@ -85,9 +109,9 @@ function Garage({ garageView }: { garageView: boolean }) {
             />
             <PopoverPicker color={colorUpdate} onChange={setColorUpdate} />
             <button
-              type="button"
               className="remote_button"
-              onClick={() => updateCar(nameUpdate, colorUpdate)}
+              type="button"
+              /*onClick={() => updateCar(nameUpdate, colorUpdate)}*/
             >
               Update
             </button>
@@ -105,10 +129,10 @@ function Garage({ garageView }: { garageView: boolean }) {
           </button>
         </div>
       </section>
-      <h2>Garage / {carList.length}</h2>
+      <h2>Garage / {carCount}</h2>
       <section className="garage_autodrom">
-        {carList.map((item: ICarItem, index: number) => (
-          <Track item={item} key={index} />
+        {carList.map((item: ICarItem) => (
+          <Track item={item} removeCar={removeCar} key={item.id} />
         ))}
       </section>
       <div className="garage_pagination"></div>
