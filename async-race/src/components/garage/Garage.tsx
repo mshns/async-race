@@ -14,11 +14,12 @@ function Garage({ garageView }: { garageView: boolean }) {
   const [carList, setCarList] = useState<ICarItem[]>([]);
   const [carCount, setCarCount] = useState<string | null>("");
 
-  const [colorCreate, setColorCreate] = useState("#ff8800");
-  const [nameCreate, setNameCreate] = useState("");
+  const [nameCreate, setNameCreate] = useState<string>("");
+  const [colorCreate, setColorCreate] = useState<string>("#ff8800");
 
-  const [colorUpdate, setColorUpdate] = useState("#ff8800");
-  const [nameUpdate, setNameUpdate] = useState("");
+  const [nameUpdate, setNameUpdate] = useState<string>("");
+  const [colorUpdate, setColorUpdate] = useState<string>("#ff8800");
+  const [idCarSelect, setIdCarSelect] = useState<number>(0);
 
   useEffect(() => {
     getCarList();
@@ -55,6 +56,23 @@ function Garage({ garageView }: { garageView: boolean }) {
 
     getCarList();
     getCarCount();
+  }
+
+  async function updateCar(nameCreate: string, colorCreate: string) {
+    const item: ICarCreat = {
+      name: nameUpdate,
+      color: colorUpdate,
+    };
+
+    await fetch(`http://127.0.0.1:3000/garage/${idCarSelect}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+
+    getCarList();
   }
 
   async function removeCar(id: number) {
@@ -101,17 +119,23 @@ function Garage({ garageView }: { garageView: boolean }) {
               Create
             </button>
           </div>
-          <div className="settings_remote">
+          <div className={`settings_remote ${idCarSelect ? "" : "disabled"}`}>
             <input
               className="remote_input"
               type="text"
+              value={nameUpdate}
               onChange={(event) => setNameUpdate(event.target.value)}
             />
             <PopoverPicker color={colorUpdate} onChange={setColorUpdate} />
             <button
               className="remote_button"
               type="button"
-              /*onClick={() => updateCar(nameUpdate, colorUpdate)}*/
+              onClick={() => {
+                updateCar(nameUpdate, colorUpdate);
+                setIdCarSelect(0);
+                setNameUpdate("");
+                setColorUpdate("#ff8800");
+              }}
             >
               Update
             </button>
@@ -132,7 +156,15 @@ function Garage({ garageView }: { garageView: boolean }) {
       <h2>Garage / {carCount}</h2>
       <section className="garage_autodrom">
         {carList.map((item: ICarItem) => (
-          <Track item={item} removeCar={removeCar} key={item.id} />
+          <Track
+            item={item}
+            key={item.id}
+            removeCar={removeCar}
+            idCarSelect={idCarSelect}
+            setIdCarSelect={setIdCarSelect}
+            setNameUpdate={setNameUpdate}
+            setColorUpdate={setColorUpdate}
+          />
         ))}
       </section>
       <div className="garage_pagination"></div>
