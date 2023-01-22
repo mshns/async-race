@@ -135,6 +135,7 @@
   background: none;
   color: #ff8800;
   cursor: pointer;
+  transition: ease-in-out .2s;
   &::before,
   &::after {
     position: absolute;
@@ -148,6 +149,10 @@
   }
   &::after {
     left: 52px;
+  }
+  &.disabled {
+    pointer-events: none;
+    opacity: .25;
   }
 }
 

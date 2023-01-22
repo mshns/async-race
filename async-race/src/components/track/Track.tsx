@@ -34,7 +34,7 @@ function Track(props: {
         >
           Remove
         </button>
-        <span>{props.item.name}</span>
+        <span className="track_name">{props.item.name}</span>
       </div>
       <div className="track_line">
         <div className="car-remote">

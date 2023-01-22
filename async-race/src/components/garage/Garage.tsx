@@ -26,7 +26,7 @@ function Garage({ garageView }: { garageView: boolean }) {
   useEffect(() => {
     getCarList();
     getCarCount();
-  }, [pageNumber]);
+  }, [pageNumber, carCount]);
 
   async function getCarList() {
     const response = await fetch(
@@ -56,7 +56,6 @@ function Garage({ garageView }: { garageView: boolean }) {
       body: JSON.stringify(item),
     });
 
-    getCarList();
     getCarCount();
   }
 
@@ -82,7 +81,6 @@ function Garage({ garageView }: { garageView: boolean }) {
       method: "DELETE",
     });
 
-    getCarList();
     getCarCount();
   }
 
@@ -100,7 +98,6 @@ function Garage({ garageView }: { garageView: boolean }) {
     }
 
     hundredCars.map((item) => createCar(item.name, item.color));
-    getCarList();
   }
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>
@@ -163,7 +160,9 @@ function Garage({ garageView }: { garageView: boolean }) {
         </h2>
         <div className="garage_page">
           <button
-            className="page_button__prev"
+            className={`page_button__prev ${
+              pageNumber === 1 ? "disabled" : ""
+            }`}
             type="button"
             onClick={() => {
               setPageNumber(pageNumber - 1);
@@ -174,7 +173,9 @@ function Garage({ garageView }: { garageView: boolean }) {
           </button>
           <span className="page_number">Page {pageNumber}</span>
           <button
-            className="page_button__next"
+            className={`page_button__next ${
+              pageNumber >= Number(carCount) / 7 ? "disabled" : ""
+            }`}
             type="button"
             onClick={() => {
               setPageNumber(pageNumber + 1);
