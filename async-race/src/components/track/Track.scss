@@ -30,6 +30,10 @@
     color: #ff8800;
     background-color: #fff;
   }
+  &.disabled {
+    pointer-events: none;
+    opacity: .25;
+  }
 }
 
 .track_name {

@@ -25,19 +25,27 @@ function Track(props: {
   const [duration, setDuration] = useState(0);
   const [animationPlay, setAnimationPlay] = useState(false);
 
+  const [startAvailable, setStartAvailable] = useState(true);
+
   useEffect(() => {
+    let requestID: number;
+    let startAnimation: number | null = null;
+
     if (animationPlay) {
-      refCar.current!.animate(
-        [
-          { transform: `translateX(0)` },
-          { transform: `translateX(calc(100vw - 250px))` },
-        ],
-        {
-          duration: duration,
-          iterations: 1,
-          fill: "forwards",
+      const frameAnimation = (time: number) => {
+        if (!startAnimation) {
+          startAnimation = time;
         }
-      );
+        const progress = (time - startAnimation) / duration;
+        refCar.current!.style.transform = `translateX(calc(${progress * 100}vw
+        - ${progress * 100 * 2.5}px))`;
+        if (progress < 1) requestID = requestAnimationFrame(frameAnimation);
+      };
+
+      requestID = requestAnimationFrame(frameAnimation);
+      return () => {
+        cancelAnimationFrame(requestID);
+      };
     }
   }, [animationPlay, duration, refCar]);
 
@@ -50,7 +58,7 @@ function Track(props: {
     );
     return await response.json();
   }
-/*
+
   async function stopEngine(id: number) {
     const response = await fetch(
       `${constants.api}engine?id=${id}&status=stopped`,
@@ -70,7 +78,7 @@ function Track(props: {
     );
     return await response.json();
   }
-*/
+
   return (
     <div className="track">
       <div className="car-settings">
@@ -98,20 +106,36 @@ function Track(props: {
       <div className="track_line">
         <div className="car-remote">
           <button
-            className="track_button"
+            className={`track_button ${startAvailable ? "active" : "disabled"}`}
             type="button"
             onClick={() => {
-              console.log("click");
+              setStartAvailable(false);
               startEngine(props.item.id).then((content) => {
                 setDuration(content.distance / content.velocity);
                 setAnimationPlay(true);
+                console.log("поехали");
+              });
+              switchEngineMode(props.item.id).catch(() => {
+                console.log("о моя остановочка");
+                setAnimationPlay(false);
               });
             }}
           >
             Start
           </button>
-          <button className="track_button" type="button" onClick={() => {}}>
-            Pause
+          <button
+            className={`track_button ${startAvailable ? "disabled" : "active"}`}
+            type="button"
+            onClick={() => {
+              stopEngine(props.item.id).then(() => {
+                console.log("галя отмена");
+                setStartAvailable(true);
+              });
+              setAnimationPlay(false);
+              refCar.current!.style.transform = `translateX(0)`;
+            }}
+          >
+            Reset
           </button>
         </div>
         <div className="track_race">
