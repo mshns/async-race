@@ -19,6 +19,10 @@ function Track(props: {
   setIdCarSelect: Dispatch<SetStateAction<number>>;
   setNameUpdate: Dispatch<SetStateAction<string>>;
   setColorUpdate: Dispatch<SetStateAction<string>>;
+  raceStart: boolean;
+  setRaceStart: Dispatch<SetStateAction<boolean>>;
+  raceReset: boolean;
+  setRaceReset: Dispatch<SetStateAction<boolean>>;
 }) {
   const refCar: RefObject<SVGSVGElement> = React.createRef();
 
@@ -28,6 +32,9 @@ function Track(props: {
   const [startAvailable, setStartAvailable] = useState(true);
 
   useEffect(() => {
+    if (props.raceStart) startButtonHandler();
+    if (props.raceReset) resetButtonHandler();
+
     let requestID: number;
     let startAnimation: number | null = null;
 
@@ -47,7 +54,7 @@ function Track(props: {
         cancelAnimationFrame(requestID);
       };
     }
-  }, [animationPlay, duration, refCar]);
+  }, [animationPlay, duration, props.raceReset, props.raceStart, refCar]);
 
   async function startEngine(id: number) {
     const response = await fetch(
@@ -79,6 +86,30 @@ function Track(props: {
     return await response.json();
   }
 
+  function startButtonHandler() {
+    setStartAvailable(false);
+    startEngine(props.item.id).then((content) => {
+      setDuration(content.distance / content.velocity);
+      setAnimationPlay(true);
+      console.log("поехали");
+    });
+    switchEngineMode(props.item.id).catch(() => {
+      console.log("о моя остановочка");
+      setAnimationPlay(false);
+    });
+    props.setRaceStart(false);
+  }
+
+  function resetButtonHandler() {
+    setAnimationPlay(false);
+    stopEngine(props.item.id).then(() => {
+      console.log("галя отмена");
+      setStartAvailable(true);
+    });
+    refCar.current!.style.transform = `translateX(0)`;
+    props.setRaceReset(false);
+  }
+
   return (
     <div className="track">
       <div className="car-settings">
@@ -108,32 +139,14 @@ function Track(props: {
           <button
             className={`track_button ${startAvailable ? "active" : "disabled"}`}
             type="button"
-            onClick={() => {
-              setStartAvailable(false);
-              startEngine(props.item.id).then((content) => {
-                setDuration(content.distance / content.velocity);
-                setAnimationPlay(true);
-                console.log("поехали");
-              });
-              switchEngineMode(props.item.id).catch(() => {
-                console.log("о моя остановочка");
-                setAnimationPlay(false);
-              });
-            }}
+            onClick={startButtonHandler}
           >
             Start
           </button>
           <button
             className={`track_button ${startAvailable ? "disabled" : "active"}`}
             type="button"
-            onClick={() => {
-              stopEngine(props.item.id).then(() => {
-                console.log("галя отмена");
-                setStartAvailable(true);
-              });
-              setAnimationPlay(false);
-              refCar.current!.style.transform = `translateX(0)`;
-            }}
+            onClick={resetButtonHandler}
           >
             Reset
           </button>

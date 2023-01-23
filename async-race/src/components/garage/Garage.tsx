@@ -7,7 +7,7 @@ import CarNameList from "../../lib/data/CarNameList";
 import "./Garage.scss";
 import "../../App.scss";
 
-import { ICarCreat, ICarItem } from "../../types/types";
+import { ICarCreat, ICarItem, IRacer } from "../../types/types";
 import { getRandomColor } from "../../lib/helpers/getRandomColor";
 import constants from "../../lib/data/Constants";
 
@@ -27,6 +27,10 @@ function Garage({ garageView }: { garageView: boolean }) {
     constants.defaultColor
   );
   const [idCarSelect, setIdCarSelect] = useState<number>(0);
+
+  const [raceStart, setRaceStart] = useState(false);
+  const [raceReset, setRaceReset] = useState(false);
+  const [raceButtonActive, setRaceButtonActive] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -105,6 +109,8 @@ function Garage({ garageView }: { garageView: boolean }) {
     setColorUpdate(constants.defaultColor);
   }
 
+  const [racers, setRecers] = useState<IRacer[]>([]);
+
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>
       <section className="garage_settings">
@@ -142,8 +148,28 @@ function Garage({ garageView }: { garageView: boolean }) {
           </div>
         </div>
         <div className="settings_buttons">
-          <button className="remote_button">Race</button>
-          <button className="remote_button">Reset</button>
+          <button
+            className={`remote_button
+            ${raceButtonActive ? "active" : "disabled"}`}
+            type="button"
+            onClick={() => {
+              setRaceStart(true);
+              setRaceButtonActive(false);
+            }}
+          >
+            Race
+          </button>
+          <button
+            className={`remote_button
+            ${raceButtonActive ? "disabled" : "active"}`}
+            type="button"
+            onClick={() => {
+              setRaceButtonActive(true);
+              setRaceReset(true);
+            }}
+          >
+            Reset
+          </button>
           <button
             className="remote_button"
             type="button"
@@ -195,6 +221,10 @@ function Garage({ garageView }: { garageView: boolean }) {
             setIdCarSelect={setIdCarSelect}
             setNameUpdate={setNameUpdate}
             setColorUpdate={setColorUpdate}
+            raceStart={raceStart}
+            setRaceStart={setRaceStart}
+            raceReset={raceReset}
+            setRaceReset={setRaceReset}
           />
         ))}
       </section>
