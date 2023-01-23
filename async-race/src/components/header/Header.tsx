@@ -7,6 +7,7 @@ function Header({
   garageView: boolean;
   setGarageView: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  
   return (
     <header className="header">
       <h1 className="header_logo">Async Race</h1>

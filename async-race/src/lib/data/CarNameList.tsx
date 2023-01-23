@@ -1,4 +1,4 @@
-import { ICarName } from "../types/types";
+import { ICarName } from "../../types/types";
 
 const CarNameList: ICarName[] = [
   {

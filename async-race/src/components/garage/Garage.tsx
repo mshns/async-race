@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { PopoverPicker } from "../popoverPicker/PopoverPicker";
 
 import Track from "../track/Track";
-import CarNameList from "../../data/CarNameList";
+import CarNameList from "../../lib/data/CarNameList";
 
 import "./Garage.scss";
 import "../../App.scss";
 
 import { ICarCreat, ICarItem } from "../../types/types";
 import { getRandomColor } from "../../lib/helpers/getRandomColor";
+import constants from "../../lib/data/Constants";
 
 function Garage({ garageView }: { garageView: boolean }) {
   const [carList, setCarList] = useState<ICarItem[]>([]);
@@ -17,30 +18,27 @@ function Garage({ garageView }: { garageView: boolean }) {
   const [pageNumber, setPageNumber] = useState<number>(1);
 
   const [nameCreate, setNameCreate] = useState<string>("");
-  const [colorCreate, setColorCreate] = useState<string>("#ff8800");
+  const [colorCreate, setColorCreate] = useState<string>(
+    constants.defaultColor
+  );
 
   const [nameUpdate, setNameUpdate] = useState<string>("");
-  const [colorUpdate, setColorUpdate] = useState<string>("#ff8800");
+  const [colorUpdate, setColorUpdate] = useState<string>(
+    constants.defaultColor
+  );
   const [idCarSelect, setIdCarSelect] = useState<number>(0);
 
   useEffect(() => {
-    getCarList();
-    getCarCount();
-  }, [pageNumber, carCount]);
+    fetch(
+      `${constants.api}garage?_page=${pageNumber}&_limit=${constants.carPerPage}`
+    )
+      .then((response) => response.json())
+      .then((data) => setCarList(data));
 
-  async function getCarList() {
-    const response = await fetch(
-      `http://127.0.0.1:3000/garage?_page=${pageNumber}&_limit=7`
-    );
-    const carList = await response.json();
-    setCarList(carList);
-  }
-
-  async function getCarCount() {
-    const response = await fetch("http://127.0.0.1:3000/garage?_page=1");
-    const carCount = response.headers.get("X-Total-Count");
-    setCarCount(carCount);
-  }
+    fetch(`${constants.api}garage?_page=1`)
+      .then((response) => response.headers.get("X-Total-Count"))
+      .then((data) => setCarCount(data));
+  }, [carCount, pageNumber]);
 
   async function createCar(nameCreate: string, colorCreate: string) {
     const item: ICarCreat = {
@@ -48,7 +46,7 @@ function Garage({ garageView }: { garageView: boolean }) {
       color: colorCreate,
     };
 
-    await fetch("http://127.0.0.1:3000/garage", {
+    await fetch(`${constants.api}garage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +54,7 @@ function Garage({ garageView }: { garageView: boolean }) {
       body: JSON.stringify(item),
     });
 
-    getCarCount();
+    setCarCount("");
   }
 
   async function updateCar() {
@@ -65,7 +63,7 @@ function Garage({ garageView }: { garageView: boolean }) {
       color: colorUpdate,
     };
 
-    await fetch(`http://127.0.0.1:3000/garage/${idCarSelect}`, {
+    await fetch(`${constants.api}garage/${idCarSelect}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -73,15 +71,15 @@ function Garage({ garageView }: { garageView: boolean }) {
       body: JSON.stringify(item),
     });
 
-    getCarList();
+    setCarCount("");
   }
 
   async function removeCar(id: number) {
-    await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+    await fetch(`${constants.api}garage/${id}`, {
       method: "DELETE",
     });
 
-    getCarCount();
+    setCarCount("");
   }
 
   function generateCars() {
@@ -99,6 +97,14 @@ function Garage({ garageView }: { garageView: boolean }) {
 
     hundredCars.map((item) => createCar(item.name, item.color));
   }
+
+  function updateButtonHandler() {
+    updateCar();
+    setIdCarSelect(0);
+    setNameUpdate("");
+    setColorUpdate(constants.defaultColor);
+  }
+
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>
       <section className="garage_settings">
@@ -129,12 +135,7 @@ function Garage({ garageView }: { garageView: boolean }) {
             <button
               className="remote_button"
               type="button"
-              onClick={() => {
-                updateCar();
-                setIdCarSelect(0);
-                setNameUpdate("");
-                setColorUpdate("#ff8800");
-              }}
+              onClick={updateButtonHandler}
             >
               Update
             </button>
@@ -166,7 +167,6 @@ function Garage({ garageView }: { garageView: boolean }) {
             type="button"
             onClick={() => {
               setPageNumber(pageNumber - 1);
-              getCarList();
             }}
           >
             Prev
@@ -174,13 +174,12 @@ function Garage({ garageView }: { garageView: boolean }) {
           <span className="page_number">Page {pageNumber}</span>
           <button
             className={`page_button__next ${
-              pageNumber >= Number(carCount) / 7 ? "disabled" : ""
+              pageNumber >= Number(carCount) / constants.carPerPage
+                ? "disabled"
+                : ""
             }`}
             type="button"
-            onClick={() => {
-              setPageNumber(pageNumber + 1);
-              getCarList();
-            }}
+            onClick={() => setPageNumber(pageNumber + 1)}
           >
             Next
           </button>
