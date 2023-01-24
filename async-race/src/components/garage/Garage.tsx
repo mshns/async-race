@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { PopoverPicker } from "../popoverPicker/PopoverPicker";
 
 import Track from "../track/Track";
-import CarNameList from "../../lib/data/CarNameList";
 
-import "./Garage.scss";
 import "../../App.scss";
+import "./Garage.scss";
 
-import { ICarCreat, ICarItem, IRacer } from "../../types/types";
 import { getRandomColor } from "../../lib/helpers/getRandomColor";
+import CarNameList from "../../lib/data/CarNameList";
 import constants from "../../lib/data/Constants";
+
+import { ICarCreat, ICarItem } from "../../types/types";
 
 function Garage({ garageView }: { garageView: boolean }) {
   const [carList, setCarList] = useState<ICarItem[]>([]);
@@ -108,8 +109,6 @@ function Garage({ garageView }: { garageView: boolean }) {
     setNameUpdate("");
     setColorUpdate(constants.defaultColor);
   }
-
-  const [racers, setRecers] = useState<IRacer[]>([]);
 
   return (
     <div className={`garage ${garageView ? "" : "hidden"}`}>

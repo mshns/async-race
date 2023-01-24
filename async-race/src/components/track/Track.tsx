@@ -5,15 +5,27 @@ import React, {
   useState,
   RefObject,
 } from "react";
-import { ReactComponent as Car } from "../../assets/petr.svg";
-import constants from "../../lib/data/Constants";
 
-import { ICarItem } from "../../types/types";
+import { ReactComponent as Car } from "../../assets/petr.svg";
+
 import "./Track.scss";
 
-function Track(props: {
+import constants from "../../lib/data/Constants";
+import { ICarItem } from "../../types/types";
+
+function Track({
+  item,
+  removeCar,
+  idCarSelect,
+  setIdCarSelect,
+  setNameUpdate,
+  setColorUpdate,
+  raceStart,
+  setRaceStart,
+  raceReset,
+  setRaceReset,
+}: {
   item: ICarItem;
-  key: number | undefined;
   removeCar: (id: number) => void;
   idCarSelect: number;
   setIdCarSelect: Dispatch<SetStateAction<number>>;
@@ -28,13 +40,9 @@ function Track(props: {
 
   const [duration, setDuration] = useState(0);
   const [animationPlay, setAnimationPlay] = useState(false);
-
   const [startAvailable, setStartAvailable] = useState(true);
 
   useEffect(() => {
-    if (props.raceStart) startButtonHandler();
-    if (props.raceReset) resetButtonHandler();
-
     let requestID: number;
     let startAnimation: number | null = null;
 
@@ -54,7 +62,12 @@ function Track(props: {
         cancelAnimationFrame(requestID);
       };
     }
-  }, [animationPlay, duration, props.raceReset, props.raceStart, refCar]);
+  }, [animationPlay, duration, raceReset, raceStart, refCar]);
+
+  useEffect(() => {
+    if (raceStart) startButtonHandler();
+    if (raceReset) resetButtonHandler();
+  });
 
   async function startEngine(id: number) {
     const response = await fetch(
@@ -88,26 +101,26 @@ function Track(props: {
 
   function startButtonHandler() {
     setStartAvailable(false);
-    startEngine(props.item.id).then((content) => {
+    startEngine(item.id).then((content) => {
       setDuration(content.distance / content.velocity);
       setAnimationPlay(true);
       console.log("поехали");
     });
-    switchEngineMode(props.item.id).catch(() => {
+    switchEngineMode(item.id).catch(() => {
       console.log("о моя остановочка");
       setAnimationPlay(false);
     });
-    props.setRaceStart(false);
+    setRaceStart(false);
   }
 
   function resetButtonHandler() {
     setAnimationPlay(false);
-    stopEngine(props.item.id).then(() => {
+    stopEngine(item.id).then(() => {
       console.log("галя отмена");
       setStartAvailable(true);
     });
     refCar.current!.style.transform = `translateX(0)`;
-    props.setRaceReset(false);
+    setRaceReset(false);
   }
 
   return (
@@ -115,12 +128,12 @@ function Track(props: {
       <div className="car-settings">
         <button
           className={`track_button
-          ${props.item.id === props.idCarSelect ? "active" : ""}`}
+          ${item.id === idCarSelect ? "active" : ""}`}
           type="button"
           onClick={() => {
-            props.setIdCarSelect(props.item.id);
-            props.setNameUpdate(props.item.name);
-            props.setColorUpdate(props.item.color);
+            setIdCarSelect(item.id);
+            setNameUpdate(item.name);
+            setColorUpdate(item.color);
           }}
         >
           Select
@@ -128,11 +141,11 @@ function Track(props: {
         <button
           className="track_button"
           type="button"
-          onClick={() => props.removeCar(props.item.id)}
+          onClick={() => removeCar(item.id)}
         >
           Remove
         </button>
-        <span className="track_name">{props.item.name}</span>
+        <span className="track_name">{item.name}</span>
       </div>
       <div className="track_line">
         <div className="car-remote">
@@ -152,7 +165,7 @@ function Track(props: {
           </button>
         </div>
         <div className="track_race">
-          <Car ref={refCar} className="track_car" fill={props.item.color} />
+          <Car ref={refCar} className="track_car" fill={item.color} />
         </div>
       </div>
     </div>

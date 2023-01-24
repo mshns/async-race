@@ -13,9 +13,3 @@ export interface ICarName {
   brand: string;
   model: string[];
 }
-
-export interface IRacer {
-  id: number;
-  status: boolean;
-  velocity: number;
-}
