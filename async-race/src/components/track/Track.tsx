@@ -1,17 +1,12 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  RefObject,
-} from "react";
+import React, { useEffect, useState, RefObject } from "react";
 
 import { ReactComponent as Car } from "../../assets/petr.svg";
 
 import "./Track.scss";
 
 import constants from "../../lib/data/Constants";
-import { ICarItem } from "../../types/types";
+
+import { ITrack } from "../../types/types";
 
 function Track({
   item,
@@ -24,18 +19,7 @@ function Track({
   setRaceStart,
   raceReset,
   setRaceReset,
-}: {
-  item: ICarItem;
-  removeCar: (id: number) => void;
-  idCarSelect: number;
-  setIdCarSelect: Dispatch<SetStateAction<number>>;
-  setNameUpdate: Dispatch<SetStateAction<string>>;
-  setColorUpdate: Dispatch<SetStateAction<string>>;
-  raceStart: boolean;
-  setRaceStart: Dispatch<SetStateAction<boolean>>;
-  raceReset: boolean;
-  setRaceReset: Dispatch<SetStateAction<boolean>>;
-}) {
+}: ITrack) {
   const refCar: RefObject<SVGSVGElement> = React.createRef();
 
   const [duration, setDuration] = useState(0);
@@ -65,8 +49,8 @@ function Track({
   }, [animationPlay, duration, raceReset, raceStart, refCar]);
 
   useEffect(() => {
-    if (raceStart) startButtonHandler();
-    if (raceReset) resetButtonHandler();
+    if (raceStart) handlerStartButton();
+    if (raceReset) handlerResetButton();
   });
 
   async function startEngine(id: number) {
@@ -99,7 +83,7 @@ function Track({
     return await response.json();
   }
 
-  function startButtonHandler() {
+  function handlerStartButton() {
     setStartAvailable(false);
     startEngine(item.id).then((content) => {
       setDuration(content.distance / content.velocity);
@@ -113,7 +97,7 @@ function Track({
     setRaceStart(false);
   }
 
-  function resetButtonHandler() {
+  function handlerResetButton() {
     setAnimationPlay(false);
     stopEngine(item.id).then(() => {
       console.log("галя отмена");
@@ -128,7 +112,7 @@ function Track({
       <div className="car-settings">
         <button
           className={`track_button
-          ${item.id === idCarSelect ? "active" : ""}`}
+          ${item.id === idCarSelect && "active"}`}
           type="button"
           onClick={() => {
             setIdCarSelect(item.id);
@@ -152,14 +136,14 @@ function Track({
           <button
             className={`track_button ${startAvailable ? "active" : "disabled"}`}
             type="button"
-            onClick={startButtonHandler}
+            onClick={handlerStartButton}
           >
             Start
           </button>
           <button
             className={`track_button ${startAvailable ? "disabled" : "active"}`}
             type="button"
-            onClick={resetButtonHandler}
+            onClick={handlerResetButton}
           >
             Reset
           </button>

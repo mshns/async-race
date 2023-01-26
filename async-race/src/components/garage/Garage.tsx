@@ -103,7 +103,7 @@ function Garage({ garageView }: { garageView: boolean }) {
     hundredCars.map((item) => createCar(item.name, item.color));
   }
 
-  function updateButtonHandler() {
+  function handlerUpdateButton() {
     updateCar();
     setIdCarSelect(0);
     setNameUpdate("");
@@ -111,7 +111,7 @@ function Garage({ garageView }: { garageView: boolean }) {
   }
 
   return (
-    <div className={`garage ${garageView ? "" : "hidden"}`}>
+    <div className={`garage ${!garageView && "hidden"}`}>
       <section className="garage_settings">
         <div className="settings_control">
           <div className="settings_remote">
@@ -129,7 +129,7 @@ function Garage({ garageView }: { garageView: boolean }) {
               Create
             </button>
           </div>
-          <div className={`settings_remote ${idCarSelect ? "" : "disabled"}`}>
+          <div className={`settings_remote ${!idCarSelect && "disabled"}`}>
             <input
               className="remote_input"
               type="text"
@@ -140,7 +140,7 @@ function Garage({ garageView }: { garageView: boolean }) {
             <button
               className="remote_button"
               type="button"
-              onClick={updateButtonHandler}
+              onClick={handlerUpdateButton}
             >
               Update
             </button>
@@ -186,9 +186,7 @@ function Garage({ garageView }: { garageView: boolean }) {
         </h2>
         <div className="garage_page">
           <button
-            className={`page_button__prev ${
-              pageNumber === 1 ? "disabled" : ""
-            }`}
+            className={`page_button__prev ${pageNumber === 1 && "disabled"}`}
             type="button"
             onClick={() => {
               setPageNumber(pageNumber - 1);
@@ -199,9 +197,8 @@ function Garage({ garageView }: { garageView: boolean }) {
           <span className="page_number">Page {pageNumber}</span>
           <button
             className={`page_button__next ${
-              pageNumber >= Number(carCount) / constants.carPerPage
-                ? "disabled"
-                : ""
+              pageNumber >= Number(carCount) / constants.carPerPage &&
+              "disabled"
             }`}
             type="button"
             onClick={() => setPageNumber(pageNumber + 1)}
