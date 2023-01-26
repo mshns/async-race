@@ -4,26 +4,23 @@
   align-items: center;
   margin-top: auto;
   border-top: 4px dashed #bbb;
-
-}
-
-.footer_part {
-  display: flex;
-  align-items: center;
-  margin: 50px 0;
-  color: #bbb;
-}
-
-.footer_image {
-  display: block;
-  width: 140px;
-  height: 28px;
-  background-color: #bbb;
-  mask: url(../../assets/rs_school_js.svg);
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  transition: ease-in-out 0.2s;
-  &:hover {
-    background-color: #fff;
+  &_part {
+    display: flex;
+    align-items: center;
+    margin: 50px 0;
+    color: #bbb;
+  }
+  &_image {
+    display: block;
+    width: 140px;
+    height: 28px;
+    background-color: #bbb;
+    mask: url(../../assets/rs_school_js.svg);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    transition: ease-in-out 0.2s;
+    &:hover {
+      background-color: #fff;
+    }
   }
 }

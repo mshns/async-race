@@ -3,58 +3,76 @@
   flex-direction: column;
   width: 100%;
   border-bottom: 2px dashed #bbb;
+  &_button {
+    min-width: 60px;
+    height: 24px;
+    margin-right: 6px;
+    font-family: "Russo One", sans-serif;
+    font-size: 12px;
+    font-weight: 100;
+    color: #000;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background-color: #bbb;
+    border: none;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+    &:hover,
+    &.active {
+      color: #ff8800;
+      background-color: #fff;
+    }
+    &.disabled {
+      pointer-events: none;
+      opacity: .25;
+    }
+  }
+  &_name {
+    position: relative;
+    min-height: 20px;
+    margin-left: 40px;
+    color: #ff8800;
+    &::before {
+      position: absolute;
+      left: -38px;
+      top: -10px;
+      content: "time_to_leave";
+      font-family: "Material Symbols Rounded";
+      font-size: 32px;
+      font-weight: 300;
+      color: #bbbbbb;
+    }
+  }
+  &_line {
+    display: flex;
+  }
+  &_race {
+    position: relative;
+    width: calc(100% - 120px);
+    margin-left: 10px;
+    &::before {
+      position: absolute;
+      bottom: 5px;
+      right: 0;
+      content: "\1F3C1";
+      font-size: 52px;
+      transform: rotate(-15deg);
+    }
+  }
+  &_car {
+    position: relative;
+    top: 7px;
+    width: 80px;
+    height: 80px;
+    animation-fill-mode: forwards;
+    animation-fill-mode: none;
+  }
 }
 
 .car-settings {
   display: flex;
   align-items: center;
   height: 36px;
-}
-
-.track_button {
-  min-width: 60px;
-  height: 24px;
-  margin-right: 6px;
-  font-family: "Russo One", sans-serif;
-  font-size: 12px;
-  font-weight: 100;
-  color: #000;
-  text-transform: uppercase;
-  border-radius: 4px;
-  background-color: #bbb;
-  border: none;
-  cursor: pointer;
-  transition: ease-in-out 0.2s;
-  &:hover,
-  &.active {
-    color: #ff8800;
-    background-color: #fff;
-  }
-  &.disabled {
-    pointer-events: none;
-    opacity: .25;
-  }
-}
-
-.track_name {
-  position: relative;
-  min-height: 20px;
-  margin-left: 40px;
-  color: #ff8800;
-  &::before {
-    position: absolute;
-    left: -38px;
-    top: -10px;
-    content: "time_to_leave";
-    font-family: "Material Symbols Rounded";
-    font-size: 32px;
-    font-weight: 300;
-    color: #bbbbbb;
-  }
-}
-
-.track_line {
-  display: flex;
 }
 
 .car-remote {
@@ -64,27 +82,4 @@
   width: 60px;
   height: 54px;
   margin-bottom: 10px;
-}
-
-.track_race {
-  position: relative;
-  width: calc(100% - 120px);
-  margin-left: 10px;
-  &::before {
-    position: absolute;
-    bottom: 5px;
-    right: 0;
-    content: "\1F3C1";
-    font-size: 52px;
-    transform: rotate(-15deg);
-  }
-}
-
-.track_car {
-  position: relative;
-  top: 7px;
-  width: 80px;
-  height: 80px;
-  animation-fill-mode: forwards;
-  animation-fill-mode: none;
 }

@@ -5,12 +5,28 @@
   &.hidden {
     display: none;
   }
-}
-
-.garage_settings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  &_settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &_pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &_title {
+    display: flex;
+    align-items: center;
+  }
+  &_page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 220px;
+    height: 40px;
+    margin-right: 14px;
+  }
 }
 
 .settings_control {
@@ -105,31 +121,11 @@
   }
 }
 
-.garage_pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.garage_title {
-  display: flex;
-  align-items: center;
-}
-
 .title_icon {
   font-family: "Material Symbols Rounded";
   font-size: 32px;
   color: #ff8800;
   margin: 0 10px;
-}
-
-.garage_page {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 220px;
-  height: 40px;
-  margin-right: 14px;
 }
 
 .page_button__prev,
